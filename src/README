@@ -1,0 +1,22 @@
+WOU Coffee
+==========
+
+Visit clickable.me/coffee.html for technical schematics.
+
+[IMPORTANT] Before running WOU Coffee for the first time, make sure you have python installed on your machine and run 'configure.py [configurations]'...
+
+Configurations include...
+	  'single-function' >> ON/OFF
+	  'dual-function' >> ON/AUTO/OFF
+
+[RUNNING] 'cd' into the 'src' directory, and run 'python coffee.py [arguments]'
+
+Arguments include...
+	  'make' '-m' >> Make a fresh pot of coffee
+	  'stopall' '-s' >> Stop all operations
+	  'with-gui' '-gui' >> Start WOU Coffee in GUI mode
+	  'reheat' '-r' >> Reheat coffee in coffee pot
+	  'help' '-h' >> Bring up the help center
+
+Contact me if you have any questions!
+tdamron14@mail.wou.edu

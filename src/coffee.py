@@ -1,5 +1,5 @@
 """
-WOU Coffee is licesed under the GNU General Public License (see LICENSE)
+WOU Coffee is licensed under the GNU General Public License (see LICENSE)
 
 Feel free to contact me if you need help setting up your own coffee pot!
 tdamron14@mail.wou.edu
@@ -7,21 +7,39 @@ tdamron14@mail.wou.edu
 
 from time import sleep
 from Tkinter import *
+from node import node
 import sys
 import datetime
 import RPi.GPIO as GPIO
 
 #Main function
 def main():
-
     #Declaring global variables
     global date
     global temp
+    global nodes
 
     #Setting variables
-    date = datetime.datetime.now()
+    date = datetime.datetime.now() 
+    nodes = []
     f = open('data/time table', 'r+')
-    difference = abs(date.hour - int(f.readline()))
+
+    for line in f:
+        nodes.append(node(str(line)))
+
+    f.close()
+
+    if nodes[len(nodes) - 1].getyear() > date.year:
+        difference = "WHAT YEAR IS IT?!"
+    elif nodes[len(nodes) - 1].getmonth() > date.month:
+        difference = "..."
+    elif nodes[len(nodes) - 1].getday() > date.day:
+        difference = "OVER 24"
+    elif nodes[len(nodes) - 1].gethour() > 0:
+        difference = nodes[len(nodes) - 1].gethour() - date.hour
+    else:
+        difference = "ERROR - 404 (Time table data not found)"
+
     print "The date is " + str(date) + " coffee was last brewed " + str(difference) + " hour(s) ago" 
 
     #Is the coffee hot, or cold?
@@ -29,7 +47,7 @@ def main():
         temp = "HOT"
     else:
         temp = "COLD"
-
+ 
     print "[Coffee is " + temp + "]"
 
     #Set up the GPIO
@@ -37,7 +55,6 @@ def main():
     GPIO.setup(18, GPIO.OUT)
 
     print "Welcome to WOU Coffee! Your request is being processed..."
-
 
     #Loop through arguments
     for args in sys.argv[1:]:
@@ -65,10 +82,11 @@ def gettemp():
 #Reheats coffee in pot by turning coffee pot on for 300 seconds if the coffee is cold
 def reheat():
     if temp == "COLD":
+        f = open('data/time table', 'a')
+        f.write(str(date.day) + " " + str(date.hour) + " " + str(date.month) + " " + str(date.year) + "\n")
         output()
         sleep(300)
         stopall()
-        temp = "HOT"
     else:
         print "Coffee already hot!"
 
@@ -87,8 +105,9 @@ def stopall():
 
 #Records time before outputting to coffee pot
 def make():
-    f = open('data/time table', 'w')
-    f.write(str(date.hour))
+    f = open('data/time table', 'a')
+    f.write(str(date.day) + " " + str(date.hour) + " " + str(date.month) + " " + date.year + "\n")
+    f.close()
     output()
 
 #Outputs from GPIO 18 for one second
@@ -104,8 +123,8 @@ def addimage(root, ref):
     label.photo = img
     return label
 
-def drawwindow():
-    #Declaring graphics variables
+#Declaring graphics variables
+def drawwindow(): 
     root = Tk()
     root.wm_title("WOU Coffee")
     frame = Frame(bg="", colormap="new", background="white")

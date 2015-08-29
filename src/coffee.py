@@ -71,8 +71,6 @@ def findargs():
             print "WOU Coffee is licensed under the GNU General Public License (See LICENSE)\ncoffee.py make || coffee.py -m >> Make a fresh cup of coffee\ncoffee.py stopall || coffee.py -s >> Stops all current operations\ncoffee.py -reheat || coffee.py -r >> Reheats the coffee in the coffee pot\ncoffee.py with-gui || coffee.py -gui >> Starts the WOU Coffee graphical user interface\ncoffee.py help || coffee.py -h >> Opens the help center" 
         elif args == "reheat" or args == "-r":
             reheat()
-        elif args == "graph" or args == "-g":
-            graph()
         else:
             print args + " is not a recognized command. Please enter \'coffee.py help\' or \'coffee.py -h\' for a list of recognized commands. Terminating."
             sys.exit(1)
